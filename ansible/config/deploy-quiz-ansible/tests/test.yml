@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+- hosts: rocky
+  remote_user: root
+  become: yes
+  roles:
+    - deploy-quiz-ansible

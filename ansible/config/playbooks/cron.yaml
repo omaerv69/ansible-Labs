@@ -1,0 +1,22 @@
+---
+- name: planification de tache
+  hosts: client1
+
+  tasks:
+    - name: mettre Ã jour la liste des paquets
+      apt:
+        update_cache: yes
+
+    - name: installer paquet cron
+      apt:
+        name: cron
+        state: present
+
+    - name: planification 
+      cron:
+        name: executer le script1
+        hour: "15"
+        minute: "10"
+        weekday: "1"
+        user: root
+        job: /root/script1.sh

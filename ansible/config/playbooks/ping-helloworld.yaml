@@ -1,0 +1,11 @@
+---
+
+- name: Mon premier playbook
+  hosts: all
+
+  tasks: 
+  - name: Tester la connectivité
+    ping:
+  - name: Afficher un message Hello World !
+    debug:
+      msg: "Hello World !"
