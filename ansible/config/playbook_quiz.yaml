@@ -1,0 +1,5 @@
+- name: Deploy the quiz
+  hosts: rocky
+  become: yes
+  roles:
+    - deploy-quiz-ansible  

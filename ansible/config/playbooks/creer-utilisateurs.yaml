@@ -1,0 +1,16 @@
+- name: Créer plusieurs utilisateurs avec boucle
+  hosts: all
+  become: yes
+  vars:
+    utilisateurs:
+      - karim
+      - sarah
+      - louis
+  tasks:
+    - name: Créer les utilisateurs
+      user:
+        name: "{{ item }}"
+        state: present
+        shell: /bin/bash
+        create_home: yes
+      loop: "{{ utilisateurs }}"

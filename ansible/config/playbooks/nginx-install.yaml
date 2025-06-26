@@ -1,0 +1,52 @@
+---
+- name: Nginx Installation
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update system packages for Debian
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Start and enable Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      when: ansible_facts['os_family'] == "Debian"
+    
+    
+    # - name: Update system packages for redhat ou suse
+    #   service:
+    #     name: "*"
+    #     state: latest
+    #     update_cache: yes
+    #   when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Suse"
+
+    
+    - name: Install Nginx for RedHat or Suse
+      ansible.builtin.yum:
+        name: nginx
+        state: present
+      when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Suse"
+    
+    - name: Check if nginx is installed
+      stat:
+        path: /usr/sbin/nginx
+      register: nginx_installed
+      when: ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Suse"
+    
+    - name: Start Nginx manually when systemd is not available
+      shell: nginx
+      when:
+        - ansible_facts['os_family'] in ["RedHat", "Suse"]
+        - nginx_installed.stat.exists
+      
