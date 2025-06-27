@@ -1,5 +1,0 @@
----
-# vars file for deploy-quiz-ansible
-
-app_dir: /opt/quiz-ansible
-node_version: "23.x"
